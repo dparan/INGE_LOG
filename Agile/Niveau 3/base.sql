@@ -157,12 +157,22 @@ CREATE TABLE IF NOT EXISTS DepartPassager
 	primary key(passager,depart)
 );
 
+/* il manque la table entre pilote et depart contenant le rapport */
 
+CREATE TABLE IF NOT EXISTS RapportPilote
+(
+	pilote int not null,
+	depart int not null,
+	rapport text not null,
+	foreign key (depart) references Depart(id),
+	foreign key (pilote) references Pilote(id),
+	primary key(depart,pilote)
+);
 
-/* A CORRIGER J'EN AI JAMAIS FAIT */
-CREATE TRIGGER IF NOT EXISTS after_insert_TempsVolType AFTER INSERT
+/* A CORRIGER J'EN AI JAMAIS FAIT 
+CREATE TRIGGER IF NOT EXISTS after_insert_TempsVolType AFTER INSERT OR UPDATE
 ON TempsVolType FOR EACH ROW
 BEGIN
 	UPDATE Pilote set nombreHeureTotal = nombreHeureTotal+NEW.temps where Pilote.id = NEW.pilote;
 	/* (select nombreHeureTotal from Pilote where Pilote.id = NEW.pilote) */
-END;
+/*END*/
